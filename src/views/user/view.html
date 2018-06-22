@@ -1,0 +1,75 @@
+<header-home></header-home>
+<div class="content-wrapper">
+    <breadcrumbs data-type="{{ 'VIEW' | translate }}" data-model-name="{{ 'USERS' | translate }}" data-model="{{type}}"></breadcrumbs>
+    <!-- Main content -->
+    <section class="content">
+      <div class="box-header with-border">
+          <h3 class="box-title">{{ 'DETAILS_FOR' | translate }} <b>{{model.username}}</b></h3>
+      </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table usertable">
+                            <tr ng-if="model.username">
+                                <td class="detail-bold">{{ 'USER_NAME' | translate }}</td>
+                                <td>{{model.username}}</td>
+                            </tr>
+                            <tr ng-if="model.firstName">
+                                <td class="detail-bold">{{ 'FIRST_NAME' | translate }}</td>
+                                <td>{{model.firstName}}</td>
+                            </tr>
+                            <tr ng-if="model.lastName">
+                                <td class="detail-bold">{{ 'LAST_NAME' | translate }}</td>
+                                <td>{{model.lastName}}</td>
+                            </tr>
+                            <tr ng-if="model.role">
+                                <td class="detail-bold">{{ 'ROLE' | translate }}</td>
+                                <td>{{model.role}}</td>
+                            </tr>
+                            <tr ng-if="model.email">
+                                <td class="detail-bold">{{ 'EMAIL' | translate }}</td>
+                                <td>{{model.email}}</td>
+                            </tr>
+                            <tr ng-if="model.organization">
+                                <td class="detail-bold">{{ 'ORGANIZATION' | translate }}</td>
+                                <td>{{model.organization.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-bold">{{ 'ACTIVE_INACTIVE' | translate }}</td>
+                                <td><span class="label label-default {{model.deletedAt ? '' : 'bg-primary condition-active'}}">{{model.deletedAt ? 'Inactivo' : 'Activo'}}</span></td>
+                            </tr>
+                            <tr ng-if="model.createdBy">
+                                <td class="detail-bold">{{ 'CREATED_BY' | translate }} </td>
+                                <td><a ng-href="users/{{model.createdBy.id}}/view" href-policy-if-guest-user>{{model.createdBy.username}}</a></td>
+                            </tr>
+                            <tr ng-if="model.createdAt">
+                                <td class="detail-bold">{{ 'CREATED_AT' | translate }}</td>
+                                <td>{{model.createdAt| date:'MMM d, y h:mm:ss a'}}</td>
+                            </tr>
+                            <tr ng-if="model.updatedAt">
+                                <td class="detail-bold">{{ 'UPDATED_AT' | translate }}</td>
+                                <td>{{model.updatedAt| date:'MMM d, y h:mm:ss a'}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button back-button class="btn btn-default pull-left">
+                            {{ 'BACK' | translate }}
+                        </button>
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="edit(model)" permission permission-only="roles.SUPERADMIN">{{ 'EDIT' | translate }}</button>
+                        <button type="submit" class="btn btn-primary pull-right" ng-show="isUserProfile && adminglob.currentUser.role === roles.ADMIN" ng-click="edit()">{{ 'EDIT' | translate }}</button>
+                        <a ng-if="model.deletedAt && (model.id != current.id)" class="pull-right btn btn-primary btn-activate" data-textdelete="{{ 'DO_THIS_ACTION' | translate }}" data-id="{{model.id}}" ng-click="activeModel($event)" permission permission-only="roles.SUPERADMIN">{{ 'ACTIVATE' | translate }}</a>
+                        <a ng-if="!model.deletedAt && (model.id != current.id)" class="pull-right btn btn-primary btn-activate" data-textdelete="{{ 'DO_THIS_ACTION' | translate }}" data-id="{{model.id}}" ng-click="inactiveModel($event)" permission permission-only="roles.SUPERADMIN">{{ 'INACTIVATE' | translate }}</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--  Main content-->
+</div>
+<footer-home></footer-home>

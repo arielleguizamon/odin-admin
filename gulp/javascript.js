@@ -7,6 +7,10 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('javascript', ['ng-config', 'ng-version', 'pdf-build'], function() {
+  var src = gulp.paths.src,
+      env = process.env.NODE_ENV || 'dev',
+      dest = (env === 'dev') ? gulp.paths.dev : gulp.paths.prod;
+
   return gulp.src(
       gulp.paths.javascript.filter(function(file) {
         return file.endsWith('.js');
@@ -18,7 +22,7 @@ gulp.task('javascript', ['ng-config', 'ng-version', 'pdf-build'], function() {
       .pipe(ngAnnotate({
         add: true
       }))
-      .pipe(uglify())
+      .pipe((env === 'dev') ? util.noop() : uglify() )//: util.noop())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(gulp.paths.build));
+    .pipe(gulp.dest(dest));
 });

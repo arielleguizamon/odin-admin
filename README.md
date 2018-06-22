@@ -1,27 +1,29 @@
-# odin-admin
+#ODIN Admin
 
-ODIN Admin
+## Requirements
 
-## Setup
+- Npm 3.10.x
+- Bower
+- Nodejs
 
-- Install all dependencies: `npm install` and `bower install`
-- Install gulp globaly: `npm install -g gulp`
+## How to install
 
-> This assumes you already have Node.js installed.
+- Install all npm dependencies: `npm install`
+- Install bower globaly: `npm install -g bower` or `node_modules/bower/bin/bower install`
+- Install all bower dependencies: `bower install`
+- Edit the configuration file `config.json` or create and edit file `config.local.json`
 
 ## Build and Serve for Development
 
 The default gulp task will generate the config module for Angular according to the environment, it will serve and watch the files.
 
-- Local: `gulp`
-- Staging: `NODE_ENV=staging gulp`
+- `npm run gulp:dev`
 
 ## Build for Deploy
 
 To build the app for the different environments:
 
-- Local: `gulp build`
-- Staging: `NODE_ENV=staging gulp build`
+- `npm run gulp:prod`
 
 > This task will generate and copy all necessary files to run the application under the `/dist` directory. This directory is ignored by git on purpose, since all it's files are regenerated on each build.
 

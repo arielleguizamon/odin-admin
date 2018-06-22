@@ -1,0 +1,121 @@
+<header-home></header-home>
+<div class="content-wrapper">
+    <breadcrumbs data-model-name="{{ 'CATEGORIES' | translate }}" data-model="{{type}}"></breadcrumbs>
+    <!-- Main content -->
+    <section class="content">
+      <div class="box-header">
+          <h3 class="box-title">{{ 'CATEGORIES' | translate }}</h3>
+          <div class="box-tools">
+              <a ng-href="subcategories/new" class="btn-primary btn nodecoration pull-right" permission permission-except="roles.GUEST">{{ 'ADD' | translate }} {{ 'SUBCATEGORY' | translate }}</a>
+              <a ng-href="categories/new" class="btn-primary btn nodecoration pull-right margin-right-10" permission permission-except="roles.GUEST">{{ 'ADD' | translate }} {{ 'CATEGORY' | translate }}</a>
+          </div>
+      </div>
+      <!-- /.box-header -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive no-padding">
+                        <search-bar data-search="{required:true,name:'Nombre'}" data-filters="{{filtersView}}"></search-bar>
+
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <a ng-click="findSort('name', !sortReverse);" class="cursor-pointer">
+                                            {{'NAME'| translate}}
+                                            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                        </a>
+                                    </th>
+                                    <th class="active_inactive">{{ 'ACTIVE_INACTIVE' | translate }}</th>
+                                    <th>{{ 'SUBCATEGORY' | translate }}</th>
+                                    <th>{{ 'AUTHOR' | translate }}</th>
+                                    <th class="text-center box-actions">{{ 'ACTIONS' | translate }}</th>
+                                </tr>
+
+                                <tr ng-if="data.data.length == 0">
+                                    <td colspan="5">No se encuentran datos para mostrar.</td>
+                                </tr>
+                                <tr ng-if="data.data.length != 0" ng-repeat="model in data.data">
+                                    <td>{{model.name}}</td>
+                                    <td class="text-center">
+                                        <span class="label label-default {{model.deletedAt ? '' : 'bg-primary condition-active'}}" ng-class="">{{model.deletedAt ? 'Inactivo' : 'Activo'}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="label label-default {{!!model.parent ? 'bg-primary condition-active' : ''}}" ng-class="">{{!!model.parent ? 'Si' : 'No'}}</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="model.createdBy">{{model.createdBy.username}}</span>
+                                    </td>
+                                    <td class="text-center box-actions herramientas-acciones">
+                                        <!-- VIEW -->
+                                        <a uib-tooltip="{{ 'VIEW' | translate }}" ng-click="view({id: model.id})">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                       <!--  EDIT -->
+                                        <a uib-tooltip="{{ 'EDIT' | translate }}" ng-click="edit({id: model.id})" permission permission-except="roles.GUEST">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+
+                                        <!-- DESACTIVAR/ACTIVAR -->
+                                        <a>
+                                            <i ng-if="model.deletedAt"
+                                        data-textdelete="{{ 'DO_THIS_ACTION' | translate }}"
+                                        data-id="{{model.id}}"
+                                        ng-click="activeModel($event)"
+                                        permission permission-except="roles.GUEST"
+                                        uib-tooltip="{{ 'ACTIVATE' | translate }}"
+                                        class="fa fa-power-off rosa-muted" style=""></i>
+                                        </a>
+                                        <a>
+                                            <i ng-if="!model.deletedAt"
+                                        data-textdelete="{{ 'DO_THIS_ACTION' | translate }}"
+                                        data-id="{{model.id}}"
+                                        ng-click="inactiveModel($event)"
+                                        permission permission-except="roles.GUEST"
+                                        uib-tooltip="{{ 'INACTIVATE' | translate }}"
+                                        class="fa fa-power-off" style=""></i>
+                                        </a>
+
+                                        <a>
+                                        <i
+                                        uib-tooltip="{{(model.datasets.length > 0 || model.subcategories.length > 0 || model.datasetsSubcategories.length > 0) ? 'No puede realizar esta acción. Esta' + ((!!model.parent) ? 'SUBCATEGORY' : 'CATEGORY' | translate | lowercase) + 'tiene relaciones.' : ('DELETE' | translate)}}"
+                                        tooltip-placement="top"
+                                        tooltip-append-to-body="true"
+                                        ng-disabled="model.datasets.length || model.subcategories.length || model.datasetsSubcategories.length"
+                                        data-textdelete="{{ 'DO_THIS_ACTION' | translate }}"
+                                        data-id="{{model.id}}"
+                                        ng-click="(model.datasets.length || model.subcategories.length || model.datasetsSubcategories.length) ? null : confirmDelete($event)"
+                                        permission permission-except="roles.GUEST"
+                                        class="fa fa-trash"
+                                        ng-class="{'rosa-muted': model.datasets.length || model.subcategories.length || model.datasetsSubcategories.length}"
+                                        >
+                                        </i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <paging class="text-center" page="data.meta.page" page-size="parameters.limit" total="data.meta.count"
+                                paging-action="paging('pageClick', page, pageSize, total)"
+                                show-prev-next="true"
+                                show-first-last="true" hide-if-empty="true"></paging>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!--  Main content-->
+</div>
+<footer-home></footer-home>
+
+<script>
+            $('#myStateButton').on('click', function() {
+                $(this).button('complete') // button text will be "finished!"
+            })
+</script>

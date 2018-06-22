@@ -8,7 +8,13 @@ var gulp = require('gulp'),
     concatCss = require('gulp-concat-css'),
     del = require('del'),
     useref = require('gulp-useref'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    nano = require('gulp-cssnano');
+
+var src = gulp.paths.src,
+    env = process.env.NODE_ENV || 'dev',
+    dest = (env === 'dev') ? gulp.paths.dev : gulp.paths.prod;
+
 
 gulp.task('styles', function() {
     // del.sync([gulp.paths.cleancss]);
@@ -21,12 +27,11 @@ gulp.task('styles', function() {
                 loadMaps: true
             })))
         .pipe(sass())
-        //TODO: add autoprefixer
         .pipe(concatCss('styles.min.css'))
         .pipe(rename('styles.min.css'))
         .pipe(cleanCSS())
+        .pipe((env === 'dev') ? util.noop() : nano())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(gulp.paths.build))
+        .pipe(gulp.dest(dest))
         .pipe(gulp.browserSync.stream());
-    // gulp.browserSync.reload();
 });

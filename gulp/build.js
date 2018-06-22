@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+require('./paths.js');
 
 gulp.task('build', [
   'clean',
@@ -7,6 +8,7 @@ gulp.task('build', [
   'vendors',
   'static',
   'fonts',
-  //'base-url'
-  'pdf-build'
+  'templates',
+  'pdf-build',
+  'ckeditor-build'
 ]);

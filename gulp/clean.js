@@ -2,5 +2,7 @@ var gulp = require('gulp'),
     del = require('del');
 
 gulp.task('clean', function () {
-  del.sync([gulp.paths.build]);
+  var env = process.env.NODE_ENV || 'dev',
+      dest = (env === 'dev') ? gulp.paths.dev : gulp.paths.prod;
+  del.sync([dest]);
 });

@@ -1,54 +1,42 @@
 var gulp = require('gulp');
 
 gulp.paths = {
+  index: './src/index.html',
+  src: './src',
+  prod: './dist',
+  dev: './tmp',
+  templates: [
+    './src/views/**/*.html',
+    './src/directives/**/*.html',
+    './*.html'
+  ],
   static: [
     // 'fonts/**/*',
-    'images/**/*',
-    'img/**/*',
-    'uib/**/*',
-    'directives/**/*.html',
-    'views/**/*.html',
-    '*.{svg,png,xml,ico}',
-    'config/*.json',
-    'manifest.json',
-    '*.html',
-    'plugins/**',
-    'public/*'
+    './src/img/**/*',
+    './src/uib/**/*',
+    './src/*.{svg,png,xml,ico,txt}',
+    './src/config/*.json',
+    './manifest.json',
+    './src/public/*'
   ],
-  build: 'dist',
-  cleancss:'dist/styles.min.css',
   javascript: [
-    'js/**/*.js',
-    'config.json',
+    './src/js/**/*.js',
+    './config.json',
   ],
   vendors: [
-    // 'css/**/*.scss',
-    // 'css/**/*.css',
-    // 'css/**/*',
-    'plugins/**',
-    'index.html',
+    './src/plugins/**',
+    './src/index.html',
   ],
   fonts: [
-    'fonts/*.woff',
-    'fonts/*.woff2',
-    'fonts/*.eot',
-    'fonts/*.svg',
-    'fonts/*.ttf',
-    'fonts/*.otf'
+    './src/fonts/*.woff',
+    './src/fonts/*.woff2',
+    './src/fonts/*.eot',
+    './src/fonts/*.ttf',
+    './src/fonts/*.svg',
+    './src/fonts/*.otf'
   ],
   styles: [
-    'css/*.scss',
-    'css/*.css'
-    // 'css/angular-date-picker.min.css',
-    // 'css/angular-color-picker.css',
-    // 'css/ionicons.min.css',
-    // 'node_modules/css/font-awesome.min.css',
-    // 'css/bootstrap.min.css',
-    // 'css/selectize.default.css',
-    // 'css/ng-alertify.css',
-    // 'css/styles_admin.css',
-    // 'css/AdminLTE.css',
-    // 'css/main.css',
-    // 'css/marca_ba.css',
+    './src/css/*.scss',
+    './src/css/*.css'
   ]
 };

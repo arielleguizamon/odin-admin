@@ -1,26 +1,24 @@
 var gulp = require('gulp'),
     lazypipe = require('lazypipe'),
-    plumber = require('gulp-plumber'),
-    gulpif = require('gulp-if'),
-    ngAnnotate = require('gulp-ng-annotate'),
     useref = require('gulp-useref'),
     sourcemaps = require('gulp-sourcemaps'),
-    fs = require('fs'),
-    template = require('gulp-template'),
-    rename = require('gulp-rename');
+    gulpif = require('gulp-if'),
+    uglify = require('gulp-uglify'),
+    util = require('gulp-util'),
+    rename = require('gulp-rename'),
+    nano = require('gulp-cssnano');
 
-gulp.task('vendors', ['static', 'styles'], function() {
-    var env = process.env.NODE_ENV || 'local',
-        config = require('../config.json');
-  return gulp.src(gulp.paths.build + '/index.html')
-    .pipe(template({ baseUrl: config[env].BaseHTML5.url }))
-    .pipe(plumber())
-    .pipe(useref({ searchPath: '.' },
+var src = gulp.paths.src,
+    env = process.env.NODE_ENV || 'dev',
+    dest = (env === 'dev') ? gulp.paths.dev : gulp.paths.prod;
+
+gulp.task('vendors', ['base-url', 'static', 'styles'], function() {
+    return gulp.src(dest + '/index.html')
+    .pipe(useref({ searchPath: ['.', src] },
       lazypipe().pipe(sourcemaps.init, { loadMaps: true }))
     )
-    .pipe(gulpif('*.js', ngAnnotate({
-      add: true
-    })))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(gulp.paths.build));
+    .pipe(gulpif('*.js', (env === 'dev') ? util.noop() : uglify()))
+    .pipe(gulpif('*.css', (env === 'dev') ? util.noop() : nano()))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(dest));
 });

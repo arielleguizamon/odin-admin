@@ -45,9 +45,10 @@ bower_components
 config.local.json
 
 # Generated files
-js/config.js
+src/js/config.js
 dist/
-js/version.js
+tmp/
+src/js/version.js
 
 # OS Generated
 .DS_STORE

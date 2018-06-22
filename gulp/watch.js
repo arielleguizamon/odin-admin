@@ -12,9 +12,12 @@ gulp.task('watch', ['serve'], function() {
 
   // Style
   gulp.watch(gulp.paths.styles, ['styles-watch']);
-  
+
   // Fonts
   gulp.watch(gulp.paths.fonts, ['fonts-watch']);
+
+  // Templates
+  gulp.watch(gulp.paths.templates, ['templates-watch']);
 
 });
 
@@ -41,6 +44,12 @@ gulp.task('javascript-watch', ['javascript'], function (done) {
 });
 
 gulp.task('styles-watch', ['styles'], function (done) {
+  gulp.browserSync.reload();
+  done();
+});
+
+// Watch subtasks
+gulp.task('templates-watch', ['templates'], function (done) {
   gulp.browserSync.reload();
   done();
 });

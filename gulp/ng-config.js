@@ -9,11 +9,10 @@ gulp.task('ng-config', function() {
     'config.json';
   return gulp.src(configFile)
     .pipe(ngConfig('odin.config', {
-      environment: process.env.NODE_ENV || 'local',
-      wrap: true
+      environment: process.env.NODE_ENV || 'dev'
     }))
     .pipe(rename('config.js'))
-    .pipe(gulp.dest('js'));
+    .pipe(gulp.dest(gulp.paths.src + '/js'));
 });
 
 gulp.task('ng-version', function() {
@@ -21,5 +20,5 @@ gulp.task('ng-version', function() {
   return gulp.src(versionFile)
     .pipe(ngConfig('odin.version'))
     .pipe(rename('version.js'))
-    .pipe(gulp.dest('js'));
+    .pipe(gulp.dest(gulp.paths.src + '/js'));
 });
