@@ -12,12 +12,12 @@
             theme: 'light',
         });
 
-        // jwtOptionsProvider.config({
-        //     unauthenticatedRedirectPath: '/login',
-        //     whiteListedDomains: ['localhost']
-        // });
+        jwtOptionsProvider.config({
+            unauthenticatedRedirectPath: '/login',
+            whiteListedDomains: ['localhost']
+        });
 
-        // $httpProvider.interceptors.push('jwtInterceptor');
+        $httpProvider.interceptors.push('jwtInterceptor');
 
         ChartJsProvider.setOptions({
             tooltips: {
@@ -569,27 +569,29 @@
             /** Let everyone through */
             'everyone': ['$cookieStore', '$rootScope', '$http', 'jwtHelper', function everyoneMiddleware($cookieStore, $rootScope, $http, jwtHelper) {
                     $rootScope.globals = $cookieStore.get('globals') || {};
-                    if ($rootScope.globals.currentConsumer) {
-                        //if (jwtHelper.isTokenExpired($rootScope.globals.currentConsumer.token)) {
-                        //     $auth.Login($auth.Consumer, function (response) {
-                        //         if (!response.code) {
-                        //             $auth.SetCredentials(response.data);
-                        //             this.next();
-                        //         }
-                        //     }.bind(this));
-                        // } else {
-                            $http.defaults.headers.common['Authorization'] = 'Bearer ' + $rootScope.globals.currentConsumer.token; // jshint ignore:line
-                            this.next();
-                        // }
-                    } else {
-                        //$http.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI5OWFmYzU3ZmRiYzA0YzZjYjJkZDRiYTU2OTBlNDM0NiJ9.Uo0I98Fu3BX8XlOgSnIvfeFx2Z_LdqM8WNT4hSMdDDM';
-                        $auth.Login($auth.Consumer, function (response) {
-                            if (!response.code) {
-                                $auth.SetCredentials(response.data);
-                                this.next();
-                            }
-                        }.bind(this));
-                    }
+                    // if ($rootScope.globals.currentConsumer) {
+                    //     if (jwtHelper.isTokenExpired($rootScope.globals.currentConsumer.token)) {
+                    //         $auth.Login($auth.Consumer, function (response) {
+                    //             if (!response.code) {
+                    //                 $auth.SetCredentials(response.data);
+                    //                 this.next();
+                    //             }
+                    //         }.bind(this));
+                    //     } else {
+                    //         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $rootScope.globals.currentConsumer.token; // jshint ignore:line
+                    //         this.next();
+                    //     }
+                    // } else {
+                    //     $http.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI5OWFmYzU3ZmRiYzA0YzZjYjJkZDRiYTU2OTBlNDM0NiJ9.Uo0I98Fu3BX8XlOgSnIvfeFx2Z_LdqM8WNT4hSMdDDM';
+                    //     $auth.Login($auth.Consumer, function (response) {
+                    //         if (!response.code) {
+                    //             $auth.SetCredentials(response.data);
+                    //             this.next();
+                    //         }
+                    //     }.bind(this));
+                    // }
+                    $http.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhYWFmYTE2M2ExMGE0ZThmOTgyN2ZlNTc4YTZlNWJkNSJ9.KMGprRbQBqIPu2IfE5K0g96NgDUthf6wtg4epLSyRFs';
+                    this.next();
 
                 }],
             'x-admin': ['$cookieStore', '$rootScope', '$http', '$location', 'jwtHelper', function everyoneMiddleware($cookieStore, $rootScope, $http, $location, jwtHelper) {
@@ -598,12 +600,12 @@
                     } else {
                         $rootScope.adminglob = $cookieStore.get('adminglob') || {};
                         if ($rootScope.adminglob.currentUser) {
-                          // if (jwtHelper.isTokenExpired($rootScope.adminglob.currentUser.token)) {
-                            //     this.redirectTo('login');
-                            // } else {
+                          if (jwtHelper.isTokenExpired($rootScope.adminglob.currentUser.token)) {
+                                this.redirectTo('login');
+                            } else {
                                 $http.defaults.headers.common['x-admin-authorization'] = $rootScope.adminglob.currentUser.token; // jshint ignore:line
                                 this.next();
-                            //}
+                            }
                         } else {
                             var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
                             var loggedIn = $rootScope.adminglob.currentUser;

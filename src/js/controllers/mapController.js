@@ -311,7 +311,7 @@ function MapPreviewController($scope, modelService, $routeParams, rest, $locatio
     usSpinnerService.spin('spinner');
     modelService.initService("Map", "maps", $scope);
 
-    L.Icon.Default.imagePath = $rootScope.baseHtml5 + 'plugins/leaflet/img/';
+    L.Icon.Default.imagePath = $rootScope.baseHtml5 + 'img/leaflet/';
 
     $scope.tiles = {
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

@@ -10,5 +10,6 @@ gulp.task('build', [
   'fonts',
   'templates',
   'pdf-build',
-  'ckeditor-build'
+  'ckeditor-build',
+  'leaflet'
 ]);
